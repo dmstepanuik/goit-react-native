@@ -1,5 +1,8 @@
 import {
-  ImageBackground, Keyboard, KeyboardAvoidingView, Platform,
+  ImageBackground,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -14,7 +17,7 @@ import Btn from '../../components/Btn/Btn';
 
 export default function LoginScreen() {
   const [isReady, setIsReady] = useState(false);
-const [isShowKeyboard, setIsShowKeyboard]=useState(false)
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   useEffect(() => {
     async function prepare() {
       try {
@@ -46,26 +49,30 @@ const [isShowKeyboard, setIsShowKeyboard]=useState(false)
 
   return (
     <>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={s.container} onLayout={onLayoutRootView}>
-          <ImageBackground style={s.bg} source={require('../../assets/images/bg.jpg')}>
-            <View style={s.inner}>
-              <Text style={s.title}>Войти</Text>
-              <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-              >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={s.container} onLayout={onLayoutRootView}>
+            <ImageBackground
+              style={s.bg}
+              source={require('../../assets/images/bg.jpg')}
+            >
+              <View style={s.inner}>
+                <Text style={s.title}>Войти</Text>
                 <View style={[s.inputWrapper, { marginBottom: 16 }]}>
-                  <TextInput style={s.input} placeholder='Адрес электронной почты'
-                  onFocus={() => setIsShowKeyboard(true)}/>
+                  <TextInput
+                    style={s.input}
+                    placeholder="Адрес электронной почты"
+                    onFocus={() => setIsShowKeyboard(true)}
+                  />
                 </View>
-              </KeyboardAvoidingView>
-
-              <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-              >
                 <View style={[s.inputWrapper, { marginBottom: 32 }]}>
                   <View style={{ flex: 4 }}>
-                    <TextInput style={s.input} placeholder='Пароль'
+                    <TextInput
+                      style={s.input}
+                      placeholder="Пароль"
                       onFocus={() => setIsShowKeyboard(true)}
                     />
                   </View>
@@ -75,16 +82,17 @@ const [isShowKeyboard, setIsShowKeyboard]=useState(false)
                     </TouchableOpacity>
                   </View>
                 </View>
-              </KeyboardAvoidingView>
 
-              <View style={{ marginBottom: 16 }}><Btn /></View>
+                <View style={{ marginBottom: 16 }}>
+                  <Btn />
+                </View>
 
-
-              <Text style={s.text}>Нет аккаунта? Зарегистрироваться</Text>
-            </View>
-          </ImageBackground>
-        </View>
-      </TouchableWithoutFeedback>
+                <Text style={s.text}>Нет аккаунта? Зарегистрироваться</Text>
+              </View>
+            </ImageBackground>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </>
   );
 }
