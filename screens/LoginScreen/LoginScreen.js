@@ -10,38 +10,14 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import * as Font from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { useCallback, useEffect, useState } from 'react';
+
+import { useState } from 'react';
 import Btn from '../../components/Btn/Btn';
+import { useFont } from '../../hooks/useFont';
 
 export default function LoginScreen() {
-  const [isReady, setIsReady] = useState(false);
+  const { isReady, onLayoutRootView } = useFont();
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  useEffect(() => {
-    async function prepare() {
-      try {
-        await Font.loadAsync({
-          'Roboto-Medium': require('../../assets/fonts/Roboto-Medium.ttf'),
-          'Roboto-Bold': require('../../assets/fonts/Roboto-Bold.ttf'),
-          'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
-          'Inter-Medium': require('../../assets/fonts/Inter-Medium.ttf'),
-        });
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setIsReady(true);
-      }
-    }
-
-    prepare();
-  }, []);
-
-  const onLayoutRootView = useCallback(async () => {
-    if (isReady) {
-      await SplashScreen.hideAsync();
-    }
-  }, [isReady]);
 
   if (!isReady) {
     return null;
