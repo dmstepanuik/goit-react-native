@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "goit-react-native",
-    "slug": "goit-react-native",
+    "name": "goit-reactnative",
+    "slug": "goit-reactnative",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

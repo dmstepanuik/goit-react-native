@@ -14,7 +14,7 @@ import Btn from '../../components/Btn/Btn';
 
 export default function LoginScreen() {
   const [isReady, setIsReady] = useState(false);
-
+const [isShowKeyboard, setIsShowKeyboard]=useState(false)
   useEffect(() => {
     async function prepare() {
       try {
@@ -55,7 +55,8 @@ export default function LoginScreen() {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               >
                 <View style={[s.inputWrapper, { marginBottom: 16 }]}>
-                  <TextInput style={s.input} placeholder='Адрес электронной почты' />
+                  <TextInput style={s.input} placeholder='Адрес электронной почты'
+                  onFocus={() => setIsShowKeyboard(true)}/>
                 </View>
               </KeyboardAvoidingView>
 
@@ -64,7 +65,9 @@ export default function LoginScreen() {
               >
                 <View style={[s.inputWrapper, { marginBottom: 32 }]}>
                   <View style={{ flex: 4 }}>
-                    <TextInput style={s.input} placeholder='Пароль' />
+                    <TextInput style={s.input} placeholder='Пароль'
+                      onFocus={() => setIsShowKeyboard(true)}
+                    />
                   </View>
                   <View>
                     <TouchableOpacity style={s.btnInput}>
