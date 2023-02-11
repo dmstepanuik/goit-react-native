@@ -22,6 +22,7 @@ const initFocus = { email: false, password: false };
 export default function LoginScreen() {
   const [values, setValues] = useState(initValues);
   const [hasFocus, setHasFocus] = useState(initFocus);
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard] = useKeyboardShow();
 
   const onChangeText = (value, name) => {
@@ -71,13 +72,17 @@ export default function LoginScreen() {
               <TextInput
                 style={s.input}
                 placeholder="Пароль"
+                secureTextEntry={!isShowPassword}
                 onChangeText={v => onChangeText(v, 'password')}
                 onFocus={() => onInputFocus('password')}
                 onBlur={() => onInputBlur('password')}
               />
             </View>
             <View>
-              <TouchableOpacity style={s.btnInput}>
+              <TouchableOpacity
+                style={s.btnInput}
+                onPress={() => setIsShowPassword(p => !p)}
+              >
                 <Text style={s.btnInputText}>Показать</Text>
               </TouchableOpacity>
             </View>
