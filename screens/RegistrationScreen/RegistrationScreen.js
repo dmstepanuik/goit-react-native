@@ -53,7 +53,7 @@ export default function RegistrationScreen() {
             </View>
           </View>
 
-          <Text style={s.title}>Вставить текст</Text>
+          <Text style={s.title}>Registration</Text>
           <View
             style={[
               s.inputWrapper,
@@ -63,7 +63,7 @@ export default function RegistrationScreen() {
           >
             <TextInput
               style={s.input}
-              placeholder="Вставить текст"
+              placeholder="Login"
               onChangeText={v => onChangeText(v, 'nickname')}
               onFocus={() => onInputFocus('nickname')}
               onBlur={() => onInputBlur('nickname')}
@@ -81,7 +81,7 @@ export default function RegistrationScreen() {
               autoComplete="email"
               keyboardType="email-address"
               textContentType="emailAddress"
-              placeholder="Вставить текст"
+              placeholder="Email Address"
               onChangeText={v => onChangeText(v, 'email')}
               onFocus={() => onInputFocus('email')}
               onBlur={() => onInputBlur('email')}
@@ -98,7 +98,7 @@ export default function RegistrationScreen() {
               <TextInput
                 style={s.input}
                 secureTextEntry={!isShowPassword}
-                placeholder="Вставить текст"
+                placeholder="Password"
                 onChangeText={v => onChangeText(v, 'password')}
                 onFocus={() => onInputFocus('password')}
                 onBlur={() => onInputBlur('password')}
@@ -110,7 +110,7 @@ export default function RegistrationScreen() {
                   style={s.btnInputText}
                   onPress={() => setIsShowPassword(p => !p)}
                 >
-                  Вставить текст
+                  show
                 </Text>
               </TouchableOpacity>
             </View>
@@ -122,11 +122,11 @@ export default function RegistrationScreen() {
                   onPress={() => {
                     console.log(values);
                   }}
-                  text="Вставить текст"
+                  text="sign in"
                 />
               </View>
 
-              <Text style={s.text}>Вставить текст</Text>
+              <Text style={s.text}>No account? Register</Text>
             </>
           )}
         </View>
