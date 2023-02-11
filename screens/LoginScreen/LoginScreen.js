@@ -45,7 +45,13 @@ export default function LoginScreen() {
       >
         <View style={[s.inner, { paddingBottom: isShowKeyboard ? 32 : 144 }]}>
           <Text style={s.title}>Войти</Text>
-          <View style={[s.inputWrapper, { marginBottom: 16 }]}>
+          <View
+            style={[
+              s.inputWrapper,
+              hasFocus.email && s.inputWrapperFocus,
+              { marginBottom: 16 },
+            ]}
+          >
             <TextInput
               style={s.input}
               placeholder="Адрес электронной почты"
@@ -54,7 +60,13 @@ export default function LoginScreen() {
               onBlur={() => onInputBlur('email')}
             />
           </View>
-          <View style={[s.inputWrapper, { marginBottom: 32 }]}>
+          <View
+            style={[
+              s.inputWrapper,
+              hasFocus.password && s.inputWrapperFocus,
+              { marginBottom: 32 },
+            ]}
+          >
             <View style={{ flex: 4 }}>
               <TextInput
                 style={s.input}
@@ -124,6 +136,10 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E8E8E8',
     borderRadius: 8,
+  },
+  inputWrapperFocus: {
+    backgroundColor: '#FFFFFF',
+    borderColor: '#FF6C00',
   },
   btnInput: {
     padding: 10,
