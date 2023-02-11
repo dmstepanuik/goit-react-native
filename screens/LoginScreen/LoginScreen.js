@@ -45,7 +45,7 @@ export default function LoginScreen() {
         source={require('../../assets/images/bg.jpg')}
       >
         <View style={[s.inner, { paddingBottom: isShowKeyboard ? 32 : 144 }]}>
-          <Text style={s.title}>Войти</Text>
+          <Text style={s.title}>Sign in</Text>
           <View
             style={[
               s.inputWrapper,
@@ -55,7 +55,7 @@ export default function LoginScreen() {
           >
             <TextInput
               style={s.input}
-              placeholder="Адрес электронной почты"
+              placeholder="Email address"
               onChangeText={v => onChangeText(v, 'email')}
               onFocus={() => onInputFocus('email')}
               onBlur={() => onInputBlur('email')}
@@ -71,7 +71,7 @@ export default function LoginScreen() {
             <View style={{ flex: 4 }}>
               <TextInput
                 style={s.input}
-                placeholder="Пароль"
+                placeholder="Password"
                 secureTextEntry={!isShowPassword}
                 onChangeText={v => onChangeText(v, 'password')}
                 onFocus={() => onInputFocus('password')}
@@ -83,7 +83,7 @@ export default function LoginScreen() {
                 style={s.btnInput}
                 onPress={() => setIsShowPassword(p => !p)}
               >
-                <Text style={s.btnInputText}>Показать</Text>
+                <Text style={s.btnInputText}>Show</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -93,11 +93,11 @@ export default function LoginScreen() {
               onPress={() => {
                 console.log(values);
               }}
-              text="Войти"
+              text="Sign in"
             />
           </View>
 
-          <Text style={s.text}>Нет аккаунта? Зарегистрироваться</Text>
+          <Text style={s.text}>No account? Register</Text>
         </View>
       </ImageBackground>
     </KeyboardContainer>
