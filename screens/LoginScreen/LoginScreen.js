@@ -10,73 +10,84 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-
+import KeyboardContainer from '../../components/KeyboardContainer/KeyboardContainer';
 import { useState } from 'react';
 import Btn from '../../components/Btn/Btn';
 import { useFont } from '../../hooks/useFont';
+import { useKeyboardShow } from '../../hooks/useKeyboardShow';
+
+const initValues = { email: '', password: '' };
+const initFocus = { email: false, password: false };
 
 export default function LoginScreen() {
-  const { isReady, onLayoutRootView } = useFont();
-  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [values, setValues] = useState(initValues);
+  const [hasFocus, setHasFocus] = useState(initFocus);
+  const [isShowKeyboard, setIsShowKeyboard] = useKeyboardShow();
 
-  if (!isReady) {
-    return null;
-  }
+  const onChangeText = (value, name) => {
+    setValues(v => ({ ...v, [name]: value }));
+  };
+
+  const onInputFocus = name => {
+    setIsShowKeyboard(true);
+    setHasFocus(p => ({ ...p, [name]: true }));
+  };
+
+  const onInputBlur = name => {
+    setHasFocus(p => ({ ...p, [name]: false }));
+  };
 
   return (
-    <>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
+    <KeyboardContainer>
+      <ImageBackground
+        style={s.bg}
+        source={require('../../assets/images/bg.jpg')}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={s.container} onLayout={onLayoutRootView}>
-            <ImageBackground
-              style={s.bg}
-              source={require('../../assets/images/bg.jpg')}
-            >
-              <View style={s.inner}>
-                <Text style={s.title}>Войти</Text>
-                <View style={[s.inputWrapper, { marginBottom: 16 }]}>
-                  <TextInput
-                    style={s.input}
-                    placeholder="Адрес электронной почты"
-                    onFocus={() => setIsShowKeyboard(true)}
-                  />
-                </View>
-                <View style={[s.inputWrapper, { marginBottom: 32 }]}>
-                  <View style={{ flex: 4 }}>
-                    <TextInput
-                      style={s.input}
-                      placeholder="Пароль"
-                      onFocus={() => setIsShowKeyboard(true)}
-                    />
-                  </View>
-                  <View>
-                    <TouchableOpacity style={s.btnInput}>
-                      <Text style={s.btnInputText}>Показать</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-
-                <View style={{ marginBottom: 16 }}>
-                  <Btn />
-                </View>
-
-                <Text style={s.text}>Нет аккаунта? Зарегистрироваться</Text>
-              </View>
-            </ImageBackground>
+        <View style={[s.inner, { paddingBottom: isShowKeyboard ? 32 : 144 }]}>
+          <Text style={s.title}>Войти</Text>
+          <View style={[s.inputWrapper, { marginBottom: 16 }]}>
+            <TextInput
+              style={s.input}
+              placeholder="Адрес электронной почты"
+              onChangeText={v => onChangeText(v, 'email')}
+              onFocus={() => onInputFocus('email')}
+              onBlur={() => onInputBlur('email')}
+            />
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </>
+          <View style={[s.inputWrapper, { marginBottom: 32 }]}>
+            <View style={{ flex: 4 }}>
+              <TextInput
+                style={s.input}
+                placeholder="Пароль"
+                onChangeText={v => onChangeText(v, 'password')}
+                onFocus={() => onInputFocus('password')}
+                onBlur={() => onInputBlur('password')}
+              />
+            </View>
+            <View>
+              <TouchableOpacity style={s.btnInput}>
+                <Text style={s.btnInputText}>Показать</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={{ marginBottom: 16 }}>
+            <Btn
+              onPress={() => {
+                console.log(values);
+              }}
+              text="Войти"
+            />
+          </View>
+
+          <Text style={s.text}>Нет аккаунта? Зарегистрироваться</Text>
+        </View>
+      </ImageBackground>
+    </KeyboardContainer>
   );
 }
 
 const s = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   bg: {
     flex: 1,
     resizeMode: 'cover',
