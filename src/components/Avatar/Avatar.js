@@ -9,14 +9,18 @@ export default function Avatar({ isEmpty, onClickBtn }) {
 
   return (
     <View style={st.container}>
-      {!isEmpty && <Image style={st.img} source={require('../../assets/images/avatar.png')} />}
+      {!isEmpty && (
+        <Image
+          style={st.img}
+          source={require('../../assets/images/avatar.png')}
+        />
+      )}
       <TouchableOpacity style={st.btn} onPress={onPressBtn}>
         {isEmpty ? <AddIcon /> : <DeleteIcon />}
       </TouchableOpacity>
     </View>
   );
 }
-
 
 const st = StyleSheet.create({
   container: {
