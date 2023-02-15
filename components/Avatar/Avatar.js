@@ -1,6 +1,6 @@
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import AddIcon from '../svg/AddIcon/AddIcon';
-import DeleteIcon from '../svg/DeleteIcon/DeleteIcon';
+import AddIcon from '../svg/AddIcon';
+import DeleteIcon from '../svg/DeleteIcon';
 
 export default function Avatar({ isEmpty, onClickBtn }) {
   const onPressBtn = () => {

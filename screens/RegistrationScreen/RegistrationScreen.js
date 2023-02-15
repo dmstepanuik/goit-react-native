@@ -125,7 +125,6 @@ export default function RegistrationScreen() {
                   text="sign in"
                 />
               </View>
-
               <Text style={s.text}> Have you an account? Sign in</Text>
             </>
           )}
