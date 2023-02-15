@@ -9,9 +9,10 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ViewBase,
 } from 'react-native';
-import KeyboardContainer from '../../components/KeyboardContainer/KeyboardContainer';
 import { useState } from 'react';
+import KeyboardContainer from '../../components/KeyboardContainer/KeyboardContainer';
 import Btn from '../../components/Btn/Btn';
 import { useFont } from '../../hooks/useFont';
 import { useKeyboardShow } from '../../hooks/useKeyboardShow';

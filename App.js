@@ -1,5 +1,5 @@
 // import { View, Text } from 'react-native';
-// import LoginScreen from './src/screens/LoginScreen/LoginScreen';
+import LoginScreen from './src/screens/LoginScreen/LoginScreen';
 
 // import CommentsScreen from './screens/CommentsScreen/CommentsScreen';
 
@@ -13,7 +13,7 @@
 
 // import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
 
-import RegistrationScreen from './src/screens/RegistrationScreen/RegistrationScreen';
+// import RegistrationScreen from './src/screens/RegistrationScreen/RegistrationScreen';
 
 export default function App() {
   return (
@@ -21,14 +21,14 @@ export default function App() {
       {/* <CommentsScreen /> */}
       {/* <CreatePostsScreen/> */}
       {/* <Home /> */}
-      {/* <LoginScreen /> */}
+      <LoginScreen />
       {/* <View>
         <Text>Hello</Text>
       </View> */}
       {/* <MapScreen /> */}
       {/* <PostsScreen /> */}
       {/* <ProfileScreen /> */}
-      <RegistrationScreen />
+      {/* <RegistrationScreen /> */}
     </>
   );
 }
