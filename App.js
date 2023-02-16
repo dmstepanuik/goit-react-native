@@ -12,20 +12,9 @@
 
 // import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
 
-import RegistrationScreen from './screens/RegistrationScreen/RegistrationScreen';
+// import RegistrationScreen from './src/screens/RegistrationScreen/RegistrationScreen';
+import Index from './src/Index';
 
 export default function App() {
-  
-  return (
-    <>
-      {/* <CommentsScreen /> */}
-      {/* <CreatePostsScreen/> */}
-      {/* <Home /> */}
-      {/* <LoginScreen /> */}
-      {/* <MapScreen /> */}
-      {/* <PostsScreen /> */}
-      {/* <ProfileScreen /> */}
-      <RegistrationScreen/>
-    </>
-  );
+  return <Index />;
 }
