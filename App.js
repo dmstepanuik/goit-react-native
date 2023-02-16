@@ -1,4 +1,5 @@
-// import LoginScreen from './screens/LoginScreen/LoginScreen';
+// import { View, Text } from 'react-native';
+import LoginScreen from './src/screens/LoginScreen/LoginScreen';
 
 // import CommentsScreen from './screens/CommentsScreen/CommentsScreen';
 
