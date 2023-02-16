@@ -11,11 +11,13 @@ import Btn from '../../components/Btn/Btn';
 import Avatar from '../../components/Avatar/Avatar';
 import { useKeyboardShow } from '../../hooks/useKeyboardShow';
 import KeyboardContainer from '../../components/KeyboardContainer/KeyboardContainer';
+import { useNavigation } from '@react-navigation/native';
 
 const initValues = { email: '', password: '', nickname: '' };
 const initFocus = { email: false, password: false, nickname: false };
 
 export default function RegistrationScreen() {
+  const navigation = useNavigation();
   const [isShowKeyboard, setIsShowKeyboard] = useKeyboardShow();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [values, setValues] = useState(initValues);
@@ -125,7 +127,13 @@ export default function RegistrationScreen() {
                   text="sign in"
                 />
               </View>
-              <Text style={s.text}> Have you an account? Sign in</Text>
+              <Text style={s.text}>
+                {' '}
+                Have you an account?{' '}
+                <Text onPress={() => navigation.navigate('signIn')}>
+                  Sign in
+                </Text>
+              </Text>
             </>
           )}
         </View>

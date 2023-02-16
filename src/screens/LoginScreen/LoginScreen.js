@@ -1,26 +1,22 @@
 import {
   ImageBackground,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
-  ViewBase,
 } from 'react-native';
 import { useState } from 'react';
 import KeyboardContainer from '../../components/KeyboardContainer/KeyboardContainer';
 import Btn from '../../components/Btn/Btn';
-import { useFont } from '../../hooks/useFont';
 import { useKeyboardShow } from '../../hooks/useKeyboardShow';
+import { useNavigation } from '@react-navigation/native';
 
 const initValues = { email: '', password: '' };
 const initFocus = { email: false, password: false };
 
 export default function LoginScreen() {
+  const navigation = useNavigation();
   const [values, setValues] = useState(initValues);
   const [hasFocus, setHasFocus] = useState(initFocus);
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -98,7 +94,10 @@ export default function LoginScreen() {
             />
           </View>
 
-          <Text style={s.text}>No account? Register</Text>
+          <Text style={s.text}>
+            No account?{' '}
+            <Text onPress={() => navigation.navigate('register')}>Register</Text>
+          </Text>
         </View>
       </ImageBackground>
     </KeyboardContainer>
