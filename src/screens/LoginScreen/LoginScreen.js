@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 const initValues = { email: '', password: '' };
 const initFocus = { email: false, password: false };
 
-export default function LoginScreen() {
+export default function LoginScreen({ setIsAuth }) {
   const navigation = useNavigation();
   const [values, setValues] = useState(initValues);
   const [hasFocus, setHasFocus] = useState(initFocus);
@@ -89,6 +89,7 @@ export default function LoginScreen() {
             <Btn
               onPress={() => {
                 console.log(values);
+                setIsAuth(true);
               }}
               text="Sign in"
             />
@@ -96,7 +97,9 @@ export default function LoginScreen() {
 
           <Text style={s.text}>
             No account?{' '}
-            <Text onPress={() => navigation.navigate('register')}>Register</Text>
+            <Text onPress={() => navigation.navigate('register')}>
+              Register
+            </Text>
           </Text>
         </View>
       </ImageBackground>

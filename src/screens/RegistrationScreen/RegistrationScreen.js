@@ -16,7 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 const initValues = { email: '', password: '', nickname: '' };
 const initFocus = { email: false, password: false, nickname: false };
 
-export default function RegistrationScreen() {
+export default function RegistrationScreen({ setIsAuth }) {
   const navigation = useNavigation();
   const [isShowKeyboard, setIsShowKeyboard] = useKeyboardShow();
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -123,6 +123,7 @@ export default function RegistrationScreen() {
                 <Btn
                   onPress={() => {
                     console.log(values);
+                    setIsAuth(true);
                   }}
                   text="sign in"
                 />
