@@ -1,30 +1,31 @@
-import LoginScreen from './screens/LoginScreen/LoginScreen';
-
-// import CommentsScreen from './screens/CommentsScreen/CommentsScreen';
-
+import { useState } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
 // import CreatePostsScreen from './screens/CreatePostsScreen/CreatePostsScreen';
-
-// import Home from "./screens/Home/Home"
-
-// import MapScreen from './screens/MapScreen/MapScreen';
-
 // import PostsScreen from './screens/PostsScreen/PostsScreen';
+import RegistrationScreen from './screens/RegistrationScreen/RegistrationScreen';
+import LoginScreen from './screens/LoginScreen/LoginScreen';
+// import mainTab from './variables/mainTab';
+import { Text } from 'react-native';
 
-// import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
+export default function App() {
+  const [isAuth, setIsAuth] = useState(false);
 
-// import RegistrationScreen from './screens/RegistrationScreen/RegistrationScreen';
+  const AuthStack = createStackNavigator();
+  // const MainTab = createBottomTabNavigator();
 
-export default function Index() {
   return (
-    <>
-      {/* <CommentsScreen /> */}
-      {/* <CreatePostsScreen/> */}
-      {/* <Home /> */}
-      <LoginScreen />
-      {/* <MapScreen /> */}
-      {/* <PostsScreen /> */}
-      {/* <ProfileScreen /> */}
-      {/* <RegistrationScreen /> */}
-    </>
+    <NavigationContainer>
+      <AuthStack.Navigator>
+        <AuthStack.Screen options={{ headerShown: false }} name="register">
+          {() => <RegistrationScreen setIsAuth={setIsAuth} />}
+        </AuthStack.Screen>
+        <AuthStack.Screen options={{ headerShown: false }} name="signIn">
+          {() => <LoginScreen setIsAuth={setIsAuth} />}
+        </AuthStack.Screen>
+      </AuthStack.Navigator>
+    </NavigationContainer>
   );
 }
