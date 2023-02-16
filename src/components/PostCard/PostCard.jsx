@@ -34,7 +34,7 @@ export default function PostCard(
         </View>
         <View style={s.sentence}>
           <MapPinIcon />
-          <Text style={s.sentenceText}>{location}</Text>
+          <Text style={[s.sentenceText, s.sentenceTextLocation]}>{location}</Text>
         </View>
       </View>
     </View>
