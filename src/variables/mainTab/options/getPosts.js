@@ -3,7 +3,7 @@ import LogOutIcon from '../../../components/svg/LogOutIcon';
 import GridIcon from '../../../components/svg/GridIcon';
 
 export const getPosts = (setIsAuth) => ({
-  title: 'Публікації',
+  title: 'Publications',
   headerRight: (props) => {
     return (
       <TouchableOpacity

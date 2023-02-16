@@ -3,7 +3,7 @@ import ArrowLeftIcon from '../../../components/svg/ArrowLeftIcon';
 import NewPostIcon from '../../../components/svg/NewPostIcon';
 
 export const getPostCreation = (navigation) => ({
-  title: 'Створити публікацію',
+  title: 'Create publication',
   headerLeft: (props) => {
     // console.log(props)
     return (
