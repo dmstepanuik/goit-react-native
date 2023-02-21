@@ -7,7 +7,6 @@ import {
   View,
 } from 'react-native';
 import { useState } from 'react';
-import KeyboardContainer from '../../components/KeyboardContainer/KeyboardContainer';
 import Btn from '../../components/Btn/Btn';
 import { useKeyboardShow } from '../../hooks/useKeyboardShow';
 import { useNavigation } from '@react-navigation/native';
@@ -36,74 +35,70 @@ export default function LoginScreen({ setIsAuth }) {
   };
 
   return (
-    <KeyboardContainer>
-      <ImageBackground
-        style={s.bg}
-        source={require('../../assets/images/bg.jpg')}
-      >
-        <View style={[s.inner, { paddingBottom: isShowKeyboard ? 32 : 144 }]}>
-          <Text style={s.title}>Sign in</Text>
-          <View
-            style={[
-              s.inputWrapper,
-              hasFocus.email && s.inputWrapperFocus,
-              { marginBottom: 16 },
-            ]}
-          >
+    <ImageBackground
+      style={s.bg}
+      source={require('../../assets/images/bg.jpg')}
+    >
+      <View style={[s.inner, { paddingBottom: isShowKeyboard ? 32 : 144 }]}>
+        <Text style={s.title}>Sign in</Text>
+        <View
+          style={[
+            s.inputWrapper,
+            hasFocus.email && s.inputWrapperFocus,
+            { marginBottom: 16 },
+          ]}
+        >
+          <TextInput
+            style={s.input}
+            placeholder="Email address"
+            onChangeText={v => onChangeText(v, 'email')}
+            onFocus={() => onInputFocus('email')}
+            onBlur={() => onInputBlur('email')}
+          />
+        </View>
+        <View
+          style={[
+            s.inputWrapper,
+            hasFocus.password && s.inputWrapperFocus,
+            { marginBottom: 32 },
+          ]}
+        >
+          <View style={{ flex: 4 }}>
             <TextInput
               style={s.input}
-              placeholder="Email address"
-              onChangeText={v => onChangeText(v, 'email')}
-              onFocus={() => onInputFocus('email')}
-              onBlur={() => onInputBlur('email')}
+              placeholder="Password"
+              secureTextEntry={!isShowPassword}
+              onChangeText={v => onChangeText(v, 'password')}
+              onFocus={() => onInputFocus('password')}
+              onBlur={() => onInputBlur('password')}
             />
           </View>
-          <View
-            style={[
-              s.inputWrapper,
-              hasFocus.password && s.inputWrapperFocus,
-              { marginBottom: 32 },
-            ]}
-          >
-            <View style={{ flex: 4 }}>
-              <TextInput
-                style={s.input}
-                placeholder="Password"
-                secureTextEntry={!isShowPassword}
-                onChangeText={v => onChangeText(v, 'password')}
-                onFocus={() => onInputFocus('password')}
-                onBlur={() => onInputBlur('password')}
-              />
-            </View>
-            <View>
-              <TouchableOpacity
-                style={s.btnInput}
-                onPress={() => setIsShowPassword(p => !p)}
-              >
-                <Text style={s.btnInputText}>Show</Text>
-              </TouchableOpacity>
-            </View>
+          <View>
+            <TouchableOpacity
+              style={s.btnInput}
+              onPress={() => setIsShowPassword(p => !p)}
+            >
+              <Text style={s.btnInputText}>Show</Text>
+            </TouchableOpacity>
           </View>
-
-          <View style={{ marginBottom: 16 }}>
-            <Btn
-              onPress={() => {
-                console.log(values);
-                setIsAuth(true);
-              }}
-              text="Sign in"
-            />
-          </View>
-
-          <Text style={s.text}>
-            No account?{' '}
-            <Text onPress={() => navigation.navigate('register')}>
-              Register
-            </Text>
-          </Text>
         </View>
-      </ImageBackground>
-    </KeyboardContainer>
+
+        <View style={{ marginBottom: 16 }}>
+          <Btn
+            onPress={() => {
+              console.log(values);
+              setIsAuth(true);
+            }}
+            text="Sign in"
+          />
+        </View>
+
+        <Text style={s.text}>
+          No account?{' '}
+          <Text onPress={() => navigation.navigate('register')}>Register</Text>
+        </Text>
+      </View>
+    </ImageBackground>
   );
 }
 

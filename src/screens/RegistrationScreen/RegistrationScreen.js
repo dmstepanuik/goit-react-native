@@ -10,7 +10,6 @@ import { useState } from 'react';
 import Btn from '../../components/Btn/Btn';
 import Avatar from '../../components/Avatar/Avatar';
 import { useKeyboardShow } from '../../hooks/useKeyboardShow';
-import KeyboardContainer from '../../components/KeyboardContainer/KeyboardContainer';
 import { useNavigation } from '@react-navigation/native';
 
 const initValues = { email: '', password: '', nickname: '' };
@@ -38,108 +37,104 @@ export default function RegistrationScreen({ setIsAuth }) {
   };
 
   return (
-    <KeyboardContainer>
-      <ImageBackground
-        style={s.bg}
-        source={require('../../assets/images/bg.jpg')}
+    <ImageBackground
+      style={s.bg}
+      source={require('../../assets/images/bg.jpg')}
+    >
+      <View
+        style={[
+          s.inner,
+          { paddingBottom: isShowKeyboard ? 32 : 78, paddingTop: 92 },
+        ]}
       >
+        <View style={s.avatarWrapper}>
+          <View style={s.avatar}>
+            <Avatar isEmpty={isEmptyAvatar} onClickBtn={setIsEmptyAvatar} />
+          </View>
+        </View>
+
+        <Text style={s.title}>Registration</Text>
         <View
           style={[
-            s.inner,
-            { paddingBottom: isShowKeyboard ? 32 : 78, paddingTop: 92 },
+            s.inputWrapper,
+            hasFocus.nickname && s.inputWrapperFocus,
+            { marginBottom: 16 },
           ]}
         >
-          <View style={s.avatarWrapper}>
-            <View style={s.avatar}>
-              <Avatar isEmpty={isEmptyAvatar} onClickBtn={setIsEmptyAvatar} />
-            </View>
-          </View>
-
-          <Text style={s.title}>Registration</Text>
-          <View
-            style={[
-              s.inputWrapper,
-              hasFocus.nickname && s.inputWrapperFocus,
-              { marginBottom: 16 },
-            ]}
-          >
+          <TextInput
+            style={s.input}
+            placeholder="Login"
+            onChangeText={v => onChangeText(v, 'nickname')}
+            onFocus={() => onInputFocus('nickname')}
+            onBlur={() => onInputBlur('nickname')}
+          />
+        </View>
+        <View
+          style={[
+            s.inputWrapper,
+            hasFocus.email && s.inputWrapperFocus,
+            { marginBottom: 16 },
+          ]}
+        >
+          <TextInput
+            style={s.input}
+            autoComplete="email"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            placeholder="Email Address"
+            onChangeText={v => onChangeText(v, 'email')}
+            onFocus={() => onInputFocus('email')}
+            onBlur={() => onInputBlur('email')}
+          />
+        </View>
+        <View
+          style={[
+            s.inputWrapper,
+            hasFocus.password && s.inputWrapperFocus,
+            { marginBottom: isShowKeyboard ? 0 : 43 },
+          ]}
+        >
+          <View style={{ flex: 4 }}>
             <TextInput
               style={s.input}
-              placeholder="Login"
-              onChangeText={v => onChangeText(v, 'nickname')}
-              onFocus={() => onInputFocus('nickname')}
-              onBlur={() => onInputBlur('nickname')}
+              secureTextEntry={!isShowPassword}
+              placeholder="Password"
+              onChangeText={v => onChangeText(v, 'password')}
+              onFocus={() => onInputFocus('password')}
+              onBlur={() => onInputBlur('password')}
             />
           </View>
-          <View
-            style={[
-              s.inputWrapper,
-              hasFocus.email && s.inputWrapperFocus,
-              { marginBottom: 16 },
-            ]}
-          >
-            <TextInput
-              style={s.input}
-              autoComplete="email"
-              keyboardType="email-address"
-              textContentType="emailAddress"
-              placeholder="Email Address"
-              onChangeText={v => onChangeText(v, 'email')}
-              onFocus={() => onInputFocus('email')}
-              onBlur={() => onInputBlur('email')}
-            />
+          <View>
+            <TouchableOpacity style={s.btnInput}>
+              <Text
+                style={s.btnInputText}
+                onPress={() => setIsShowPassword(p => !p)}
+              >
+                show
+              </Text>
+            </TouchableOpacity>
           </View>
-          <View
-            style={[
-              s.inputWrapper,
-              hasFocus.password && s.inputWrapperFocus,
-              { marginBottom: isShowKeyboard ? 0 : 43 },
-            ]}
-          >
-            <View style={{ flex: 4 }}>
-              <TextInput
-                style={s.input}
-                secureTextEntry={!isShowPassword}
-                placeholder="Password"
-                onChangeText={v => onChangeText(v, 'password')}
-                onFocus={() => onInputFocus('password')}
-                onBlur={() => onInputBlur('password')}
+        </View>
+        {!isShowKeyboard && (
+          <>
+            <View style={{ marginBottom: 16 }}>
+              <Btn
+                onPress={() => {
+                  console.log(values);
+                  setIsAuth(true);
+                }}
+                text="sign in"
               />
             </View>
-            <View>
-              <TouchableOpacity style={s.btnInput}>
-                <Text
-                  style={s.btnInputText}
-                  onPress={() => setIsShowPassword(p => !p)}
-                >
-                  show
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          {!isShowKeyboard && (
-            <>
-              <View style={{ marginBottom: 16 }}>
-                <Btn
-                  onPress={() => {
-                    console.log(values);
-                    setIsAuth(true);
-                  }}
-                  text="sign in"
-                />
-              </View>
-              <Text style={s.text}>
-                {' '}
-                Have you an account?{' '}
-                <Text onPress={() => navigation.navigate('signIn')}>
-                  Sign in
-                </Text>
-              </Text>
-            </>
-          )}
-        </View>
-      </ImageBackground>
-    </KeyboardContainer>
+            <Text style={s.text}>
+              {' '}
+              Have you an account?{' '}
+              <Text onPress={() => navigation.navigate('signIn')}>Sign in</Text>
+            </Text>
+          </>
+        )}
+      </View>
+    </ImageBackground>
   );
 }
 

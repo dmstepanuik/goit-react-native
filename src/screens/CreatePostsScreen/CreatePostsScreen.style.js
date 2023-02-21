@@ -3,6 +3,7 @@ import { fontFamily } from '../../variables/fontFamily';
 
 export const style = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#ffffff',
     paddingTop: 32,
     paddingBottom: 42,
@@ -39,8 +40,6 @@ export const style = StyleSheet.create({
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    // borderColor: 'red',
-    // borderWidth: 1,
     borderBottomColor: '#E8E8E8',
     borderBottomWidth: 1,
   },
