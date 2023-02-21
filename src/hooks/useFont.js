@@ -30,5 +30,5 @@ export const useFont = () => {
     }
   }, [isReady]);
 
-  return {isReady, onLayoutRootView}
-}
+  return {isReady, onLayoutRootView};
+};

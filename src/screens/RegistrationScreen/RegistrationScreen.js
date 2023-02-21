@@ -150,9 +150,9 @@ const s = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   inner: {
-    position: 'relative',
-    paddingTop: 92,
+    paddingTop: 32,
     paddingHorizontal: 16,
+    paddingBottom: 144,
     backgroundColor: '#ffffff',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -168,19 +168,6 @@ const s = StyleSheet.create({
   },
   avatar: {
     position: 'absolute',
-  },
-  bg: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'flex-end',
-  },
-  inner: {
-    paddingTop: 32,
-    paddingHorizontal: 16,
-    paddingBottom: 144,
-    backgroundColor: '#ffffff',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
   },
   input: {
     padding: 16,

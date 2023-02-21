@@ -1,11 +1,33 @@
+import { useContext, useEffect } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import uuid from 'react-native-uuid';
 import { fontFamily } from '../../variables/fontFamily';
 import PostCard from '../../components/PostCard/PostCard';
-import data from '../../data';
+import { postsCtx } from '../../context/PostsCtx';
 
-const { postList } = data;
+export default function PostsScreen({ route }) {
+  const { posts, setPosts } = useContext(postsCtx);
 
-export default function PostsScreen() {
+  useEffect(() => {
+    if (!route.params) return;
+    const data = route.params.newPost;
+    const id = uuid.v4();
+    const newPost = {
+      id,
+      title: data.title,
+      messageCount: 0,
+      likeCount: 0,
+      imgUri: data.photoUri,
+      location: data.place,
+      locationData: {
+        latitude: data.placeLocation.latitude,
+        longitude: data.placeLocation.longitude,
+      },
+      comments: [],
+    };
+    setPosts(p => [newPost, ...p]);
+  }, [route.params, setPosts]);
+
   return (
     <ScrollView style={{ flex: 1 }}>
       <View
@@ -27,14 +49,16 @@ export default function PostsScreen() {
         </View>
 
         <View>
-          {postList.map(it => (
+          {posts.map(it => (
             <View key={it.id} style={{ marginBottom: 10 }}>
               <PostCard
                 title={it.title}
                 likeCount={it.likeCount}
-                messageCount={it.messageCount}
                 imgUrl={it.imgUrl}
+                imgUri={it.imgUri}
                 location={it.location}
+                locationData={it.locationData}
+                comments={it.comments}
               />
             </View>
           ))}

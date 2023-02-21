@@ -21,9 +21,9 @@ export const screenOptions = {
 
     paddingHorizontal: 81, // TODO universal for any screen width
 
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
     borderTopWidth: 1,
-    borderTopColor: "#b3b3b3",
+    borderTopColor: '#b3b3b3',
 
   },
-}
+};

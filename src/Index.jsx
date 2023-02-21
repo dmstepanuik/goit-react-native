@@ -1,66 +1,70 @@
 import { useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import RegistrationScreen from './screens/RegistrationScreen/RegistrationScreen';
 import LoginScreen from './screens/LoginScreen/LoginScreen';
-import mainTab from './variables/mainTab';
-import { Text } from 'react-native';
-import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
-import CreatePostsScreen from './screens/CreatePostsScreen/CreatePostsScreen';
-import PostsScreen from './screens/PostsScreen/PostsScreen';
+import PostsCtx, { postsCtx } from './context/PostsCtx';
+import { fontFamily } from './variables/fontFamily';
+import LeftNavArrow from './components/svg/LeftNavArrow';
+import MainTabNav from './Routing/MainTabNav';
+import MapScreen from './screens/MapScreen/MapScreen';
+import CommentsScreen from './screens/CommentsScreen/CommentsScreen';
 
 export default function App() {
   const [isAuth, setIsAuth] = useState(false);
 
   const AuthStack = createStackNavigator();
-  const MainTab = createBottomTabNavigator();
-  console.log(isAuth);
+  const OtherStack = createStackNavigator();
 
   return (
-    <NavigationContainer>
-      {!isAuth && (
-        <AuthStack.Navigator>
-          <AuthStack.Screen options={{ headerShown: false }} name="register">
-            {() => <RegistrationScreen setIsAuth={setIsAuth} />}
-          </AuthStack.Screen>
-          <AuthStack.Screen options={{ headerShown: false }} name="signIn">
-            {() => <LoginScreen setIsAuth={setIsAuth} />}
-          </AuthStack.Screen>
-        </AuthStack.Navigator>
-      )}
+    <PostsCtx value={postsCtx}>
+      <NavigationContainer>
+        {!isAuth && (
+          <AuthStack.Navigator>
+            <AuthStack.Screen options={{ headerShown: false }} name="register">
+              {() => <RegistrationScreen setIsAuth={setIsAuth} />}
+            </AuthStack.Screen>
+            <AuthStack.Screen options={{ headerShown: false }} name="signIn">
+              {() => <LoginScreen setIsAuth={setIsAuth} />}
+            </AuthStack.Screen>
+          </AuthStack.Navigator>
+        )}
 
-      {isAuth && (
-        <MainTab.Navigator
-          initialRouteName="posts"
-          screenOptions={mainTab.screenOptions}
-        >
-
-          <MainTab.Screen
-            name="posts"
-            component={PostsScreen}
-            options={mainTab.options.getPosts(setIsAuth)}
-          />
-
-          <MainTab.Screen
-            name="create"
-            options={({ navigation }) =>
-              mainTab.options.getPostCreation(navigation)
-            }
-          >
-            {() => (
-              <CreatePostsScreen
-                imgUrl={require('./assets/images/posts/img01.jpg')}
-              />
-            )}
-          </MainTab.Screen>
-          <MainTab.Screen
-            name="profile"
-            component={ProfileScreen}
-            options={mainTab.options.profile}
-          />
-        </MainTab.Navigator>
-      )}
-    </NavigationContainer>
+        {isAuth && (
+          <OtherStack.Navigator screenOptions={mainOptions}>
+            <OtherStack.Screen name="home" options={{ headerShown: false }}>
+              {props => <MainTabNav {...props} setIsAuth={setIsAuth} />}
+            </OtherStack.Screen>
+            <OtherStack.Screen
+              name="map"
+              component={MapScreen}
+              options={{ title: 'Map' }}
+            />
+            <OtherStack.Screen
+              name="comments"
+              component={CommentsScreen}
+              options={{ title: 'Comments' }}
+            />
+          </OtherStack.Navigator>
+        )}
+      </NavigationContainer>
+    </PostsCtx>
   );
 }
+
+const mainOptions = {
+  headerTitleAlign: 'center',
+  headerTintColor: '#212121',
+  headerTitleStyle: {
+    fontFamily: fontFamily.roboto500,
+    fontSize: 17,
+    lineHeight: 22,
+  },
+  headerStyle: {
+    height: 88,
+    backgroundColor: '#FFFFFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#b3b3b3',
+  },
+  headerLeft: props => <LeftNavArrow {...props} />,
+};
