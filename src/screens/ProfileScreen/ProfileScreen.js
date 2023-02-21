@@ -8,16 +8,18 @@ import {
 } from 'react-native';
 import { style as s } from './ProfileScreen.style';
 import Avatar from '../../components/Avatar/Avatar';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import LogOutIcon from '../../components/svg/LogOutIcon';
-import { postList } from '../../data/postList';
+// import { postList } from '../../data/postList';
 import PostCard from '../../components/PostCard/PostCard';
+import { postsCtx } from '../../context/PostsCtx';
 
 const Empty = ({ height, ...another }) => (
   <View style={{ backgroundColor: '#ffffff', height }} {...another} />
 );
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ setIsAuth }) {
+  const { posts } = useContext(postsCtx);
   const [isEmptyAvatar, setIsEmptyAvatar] = useState(false);
 
   return (
@@ -46,7 +48,7 @@ export default function ProfileScreen() {
           }}
         >
           <FlatList
-            data={postList}
+            data={posts}
             ListHeaderComponent={
               <View style={s.inner}>
                 <View style={s.avatarWrapper}>
@@ -60,7 +62,7 @@ export default function ProfileScreen() {
 
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  onPress={() => {}}
+                  onPress={() => setIsAuth(false)}
                   style={s.exitBtn}
                 >
                   <LogOutIcon />
@@ -77,9 +79,11 @@ export default function ProfileScreen() {
                 <PostCard
                   title={item.title}
                   likeCount={item.likeCount}
-                  messageCount={item.messageCount}
                   imgUrl={item.imgUrl}
+                  imgUri={item.imgUri}
                   location={item.location}
+                  locationData={item.locationData}
+                  comments={item.comments}
                 />
               </View>
             )}
@@ -92,7 +96,7 @@ export default function ProfileScreen() {
                   alignItems: 'center',
                 }}
               >
-                <Text>У вас ще не має постів</Text>
+                <Text>You have no posts yet</Text>
               </View>
             }
             ListFooterComponent={<Empty height={43} />}

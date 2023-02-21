@@ -41,7 +41,6 @@ export default function CreatePostsScreen({ imgUrl, navigation }) {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       };
-      console.log(coords);
       setPlaceLocation(coords);
     })();
   }, []);
