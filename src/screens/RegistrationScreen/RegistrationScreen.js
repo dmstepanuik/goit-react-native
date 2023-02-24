@@ -11,17 +11,20 @@ import Btn from '../../components/Btn/Btn';
 import Avatar from '../../components/Avatar/Avatar';
 import { useKeyboardShow } from '../../hooks/useKeyboardShow';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import authOperations from '../../redux/auth/authOperations';
 
-const initValues = { email: '', password: '', nickname: '' };
+const initValues = { email: 'dmytro@mail.com', password: '1234qwer', nickname: 'Dmytro' };
 const initFocus = { email: false, password: false, nickname: false };
 
-export default function RegistrationScreen({ setIsAuth }) {
+export default function RegistrationScreen() {
   const navigation = useNavigation();
   const [isShowKeyboard, setIsShowKeyboard] = useKeyboardShow();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [values, setValues] = useState(initValues);
   const [hasFocus, setHasFocus] = useState(initFocus);
-  const [isEmptyAvatar, setIsEmptyAvatar] = useState(true);
+  const [avatarImg, setAvatarImg] = useState('');
+  const dispatch = useDispatch();
 
   const onChangeText = (value, name) => {
     setValues(v => ({ ...v, [name]: value }));
@@ -34,6 +37,12 @@ export default function RegistrationScreen({ setIsAuth }) {
 
   const onInputBlur = name => {
     setHasFocus(p => ({ ...p, [name]: false }));
+  };
+
+  const onPressSubmitBtn = () => {
+    // console.log('values', values);
+    dispatch(authOperations.authRegister({ ...values, photoURL: avatarImg }));
+    setValues(initValues);
   };
 
   return (
@@ -49,7 +58,7 @@ export default function RegistrationScreen({ setIsAuth }) {
       >
         <View style={s.avatarWrapper}>
           <View style={s.avatar}>
-            <Avatar isEmpty={isEmptyAvatar} onClickBtn={setIsEmptyAvatar} />
+            <Avatar avatarImg={avatarImg} setAvatarImg={setAvatarImg} />
           </View>
         </View>
 
@@ -64,6 +73,7 @@ export default function RegistrationScreen({ setIsAuth }) {
           <TextInput
             style={s.input}
             placeholder="Login"
+            value={values.nickname}
             onChangeText={v => onChangeText(v, 'nickname')}
             onFocus={() => onInputFocus('nickname')}
             onBlur={() => onInputBlur('nickname')}
@@ -82,6 +92,7 @@ export default function RegistrationScreen({ setIsAuth }) {
             keyboardType="email-address"
             textContentType="emailAddress"
             placeholder="Email Address"
+            value={values.email}
             onChangeText={v => onChangeText(v, 'email')}
             onFocus={() => onInputFocus('email')}
             onBlur={() => onInputBlur('email')}
@@ -99,6 +110,7 @@ export default function RegistrationScreen({ setIsAuth }) {
               style={s.input}
               secureTextEntry={!isShowPassword}
               placeholder="Password"
+              value={values.password}
               onChangeText={v => onChangeText(v, 'password')}
               onFocus={() => onInputFocus('password')}
               onBlur={() => onInputBlur('password')}
@@ -118,13 +130,7 @@ export default function RegistrationScreen({ setIsAuth }) {
         {!isShowKeyboard && (
           <>
             <View style={{ marginBottom: 16 }}>
-              <Btn
-                onPress={() => {
-                  console.log(values);
-                  setIsAuth(true);
-                }}
-                text="sign in"
-              />
+              <Btn onPress={onPressSubmitBtn} text="sign up" />
             </View>
             <Text style={s.text}>
               {' '}

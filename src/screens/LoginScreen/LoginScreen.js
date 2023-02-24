@@ -10,16 +10,19 @@ import { useState } from 'react';
 import Btn from '../../components/Btn/Btn';
 import { useKeyboardShow } from '../../hooks/useKeyboardShow';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import authOperations from '../../redux/auth/authOperations';
 
-const initValues = { email: '', password: '' };
+const initValues = { email: 'dmytro@mail.com', password: '1234qwer' };
 const initFocus = { email: false, password: false };
 
-export default function LoginScreen({ setIsAuth }) {
+export default function LoginScreen() {
   const navigation = useNavigation();
   const [values, setValues] = useState(initValues);
   const [hasFocus, setHasFocus] = useState(initFocus);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard] = useKeyboardShow();
+  const dispatch = useDispatch();
 
   const onChangeText = (value, name) => {
     setValues(v => ({ ...v, [name]: value }));
@@ -32,6 +35,11 @@ export default function LoginScreen({ setIsAuth }) {
 
   const onInputBlur = name => {
     setHasFocus(p => ({ ...p, [name]: false }));
+  };
+
+  const onPressSubmitBtn = () => {
+    dispatch(authOperations.authLogin(values));
+    setValues(initValues);
   };
 
   return (
@@ -51,6 +59,7 @@ export default function LoginScreen({ setIsAuth }) {
           <TextInput
             style={s.input}
             placeholder="Email address"
+            value={values.email}
             onChangeText={v => onChangeText(v, 'email')}
             onFocus={() => onInputFocus('email')}
             onBlur={() => onInputBlur('email')}
@@ -68,6 +77,7 @@ export default function LoginScreen({ setIsAuth }) {
               style={s.input}
               placeholder="Password"
               secureTextEntry={!isShowPassword}
+              value={values.password}
               onChangeText={v => onChangeText(v, 'password')}
               onFocus={() => onInputFocus('password')}
               onBlur={() => onInputBlur('password')}
@@ -84,13 +94,7 @@ export default function LoginScreen({ setIsAuth }) {
         </View>
 
         <View style={{ marginBottom: 16 }}>
-          <Btn
-            onPress={() => {
-              console.log(values);
-              setIsAuth(true);
-            }}
-            text="Sign in"
-          />
+          <Btn onPress={onPressSubmitBtn} text="Sign in" />
         </View>
 
         <Text style={s.text}>

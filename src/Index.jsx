@@ -10,9 +10,11 @@ import MainTabNav from './Routing/MainTabNav';
 import MapScreen from './screens/MapScreen/MapScreen';
 import CommentsScreen from './screens/CommentsScreen/CommentsScreen';
 import KeyboardContainer from './components/KeyboardContainer/KeyboardContainer';
+import { useSelector } from 'react-redux';
 
 export default function App() {
   const [isAuth, setIsAuth] = useState(false);
+  const { currentUser } = useSelector(state => state.auth);
 
   const AuthStack = createStackNavigator();
   const OtherStack = createStackNavigator();
@@ -21,7 +23,7 @@ export default function App() {
     <PostsCtx value={postsCtx}>
       <KeyboardContainer>
         <NavigationContainer>
-          {!isAuth && (
+          {!currentUser && (
             <AuthStack.Navigator>
               <AuthStack.Screen
                 options={{ headerShown: false }}
@@ -35,7 +37,7 @@ export default function App() {
             </AuthStack.Navigator>
           )}
 
-          {isAuth && (
+          {currentUser && (
             <OtherStack.Navigator screenOptions={mainOptions}>
               <OtherStack.Screen name="home" options={{ headerShown: false }}>
                 {props => <MainTabNav {...props} setIsAuth={setIsAuth} />}
