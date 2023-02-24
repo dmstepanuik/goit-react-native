@@ -121,6 +121,7 @@ const s = StyleSheet.create({
     borderTopRightRadius: 25,
   },
   input: {
+    width: '100%',
     padding: 16,
   },
   title: {

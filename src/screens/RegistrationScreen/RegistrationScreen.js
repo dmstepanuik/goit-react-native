@@ -188,6 +188,7 @@ const s = StyleSheet.create({
     position: 'absolute',
   },
   input: {
+    width: '100%',
     padding: 16,
   },
   title: {
