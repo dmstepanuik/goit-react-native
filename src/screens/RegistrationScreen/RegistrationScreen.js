@@ -14,7 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import authOperations from '../../redux/auth/authOperations';
 
-const initValues = { email: 'dmytro@mail.com', password: '1234qwer', nickname: 'Dmytro' };
+const initValues = { email: '', password: '', nickname: '' };
 const initFocus = { email: false, password: false, nickname: false };
 
 export default function RegistrationScreen() {

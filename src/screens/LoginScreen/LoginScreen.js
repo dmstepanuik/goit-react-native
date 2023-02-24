@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import authOperations from '../../redux/auth/authOperations';
 
-const initValues = { email: 'dmytro@mail.com', password: '1234qwer' };
+const initValues = { email: '', password: '' };
 const initFocus = { email: false, password: false };
 
 export default function LoginScreen() {
