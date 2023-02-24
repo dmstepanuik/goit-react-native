@@ -1,62 +1,85 @@
 import {FlatList, Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {style as s} from './CommentsScreen.style';
 import RoundUpIcon from '../../components/svg/RoundUp';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRoute } from '@react-navigation/native';
+import postsSelectors from '../../redux/posts/postsSelectors';
+import authSelectors from '../../redux/auth/authSelectors';
+import postOperation from '../../redux/posts/postsOperation';
 
-export default function CommentsScreen({route}) {
-  const {imgUri, imgUrl, comments} = route.params;
+export default function CommentsScreen() {
+  const [comment, setComment] = useState('');
+  const dispatch = useDispatch();
+  const route = useRoute();
+  const { postId, imgUri } = route.params;
+  const comments = useSelector(postsSelectors.getComments);
+  const sortedComments = [...comments].sort(
+    (a, b) => b.dateForSort - a.dateForSort,
+  );
+  const { userId } = useSelector(authSelectors.getUser);
+  useEffect(() => {
+    dispatch(postOperation.getAllCommentsByPostId(postId));
+
+    return () => {
+      dispatch(postOperation.getAllPosts());
+      dispatch(postOperation.getOwnPosts());
+    };
+  }, [dispatch, postId]);
+
+  const createPost = () => {
+    dispatch(postOperation.addCommentByPostID(postId, comment));
+    setComment('');
+  };
   return (
     <View style={s.container}>
       <FlatList
         style={{ paddingHorizontal: 16 }}
-        data={comments}
+        data={sortedComments}
         ListHeaderComponent={
           <View style={{ paddingVertical: 32 }}>
-            <Image
-              style={s.image}
-              source={(() => {
-                if (imgUrl) return imgUrl;
-                if (imgUri) return { uri: imgUri };
-                return false;
-              })()}
-            />
+            <Image style={s.image} source={{ uri: imgUri }} />
           </View>
         }
-        renderItem={({ item }) => (
-          <View
-            style={[
-              s.containerItem,
-              { flexDirection: item.isOwner ? 'row-reverse' : 'row' },
-            ]}
-          >
-            <Image
-              source={item.ownerAvatar}
-              style={[
-                s.authorAvatar,
-                { [item.isOwner ? 'marginLeft' : 'marginRight']: 16 },
-              ]}
-            />
+        renderItem={({ item }) => {
+          const isOwner = item.authorId === userId;
+          return (
             <View
               style={[
-                s.commentWrapper,
-                {
-                  [item.isOwner
-                    ? 'borderTopRightRadius'
-                    : 'borderTopLeftRadius']: 16,
-                },
+                s.containerItem,
+                { flexDirection: isOwner ? 'row-reverse' : 'row' },
               ]}
             >
-              <Text style={s.commentAuthor}>{item.text}</Text>
-              <Text
+              <Image
+                source={{ uri: item.userAvatar }}
                 style={[
-                  s.commentDate,
-                  { textAlign: item.isOwner ? 'left' : 'right' },
+                  s.authorAvatar,
+                  { [isOwner ? 'marginLeft' : 'marginRight']: 16 },
+                ]}
+              />
+              <View
+                style={[
+                  s.commentWrapper,
+                  {
+                    [isOwner
+                      ? 'borderTopRightRadius'
+                      : 'borderTopLeftRadius']: 0,
+                  },
                 ]}
               >
-                {item.date}
-              </Text>
+                <Text style={s.commentAuthor}>{item.comment}</Text>
+                <Text
+                  style={[
+                    s.commentDate,
+                    { textAlign: isOwner ? 'left' : 'right' },
+                  ]}
+                >
+                  {item.date}
+                </Text>
+              </View>
             </View>
-          </View>
-        )}
+          );
+        }}
         ItemSeparatorComponent={() => <View style={{ height: 24 }} />}
         ListEmptyComponent={
           <View
@@ -75,15 +98,15 @@ export default function CommentsScreen({route}) {
       <View style={s.containerFooter}>
         <View>
           <TextInput
-            // value={}
-            // onChangeText={}
-            placeholder="Коментувати..."
+            value={comment}
+            onChangeText={(text) => setComment(text)}
+            placeholder="Comment..."
             placeholderTextColor="#BDBDBD"
             style={s.commentInput}
           />
           <TouchableOpacity
             style={s.iconWrapper}
-            // onPress={}
+            onPress={createPost}
             activeOpacity={0.7}
           >
             <RoundUpIcon />

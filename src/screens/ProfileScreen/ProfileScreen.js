@@ -78,18 +78,19 @@ export default function ProfileScreen() {
               </View>
             }
             ItemSeparatorComponent={() => <Empty height={32} />}
-            renderItem={({ item }) => (
+            renderItem={({ item: it }) => (
               <View
                 style={{ paddingHorizontal: 16, backgroundColor: '#ffffff' }}
               >
                 <PostCard
-                  title={item.title}
-                  likeCount={item.likeCount}
-                  imgUrl={item.imgUrl}
-                  imgUri={item.imgUri}
-                  location={item.location}
-                  locationData={item.locationData}
-                  comments={item.comments}
+                  title={it.title}
+                  likeCount={it.likeCount}
+                  imgUrl={it.imgUrl}
+                  imgUri={it.imgUri}
+                  location={it.location}
+                  locationData={it.locationData}
+                  comments={it.comments}
+                  post={it}
                 />
               </View>
             )}

@@ -14,6 +14,7 @@ export default function PostsScreen() {
 
   useEffect(() => {
     dispatch(postOperation.getAllPosts());
+    dispatch(postOperation.getOwnPosts());
   }, [dispatch]);
 
   return (
@@ -44,6 +45,7 @@ export default function PostsScreen() {
                 location={it.location}
                 locationData={it.locationData}
                 comments={it.comments}
+                post={it}
               />
             </View>
           ))}
