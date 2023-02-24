@@ -8,22 +8,28 @@ import {
 } from 'react-native';
 import { style as s } from './ProfileScreen.style';
 import Avatar from '../../components/Avatar/Avatar';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import LogOutIcon from '../../components/svg/LogOutIcon';
-// import { postList } from '../../data/postList';
 import PostCard from '../../components/PostCard/PostCard';
-import { postsCtx } from '../../context/PostsCtx';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import authOperations from '../../redux/auth/authOperations';
+import authSelectors from '../../redux/auth/authSelectors';
+import postsSelectors from '../../redux/posts/postsSelectors';
 
 const Empty = ({ height, ...another }) => (
   <View style={{ backgroundColor: '#ffffff', height }} {...another} />
 );
 
 export default function ProfileScreen() {
-  const { posts } = useContext(postsCtx);
-  const [avatarImg, setAvatarImg] = useState('');
+  const user = useSelector(authSelectors.getUser);
+  const [avatarImg, setAvatarImg] = useState(user.userAvatar);
   const dispatch = useDispatch();
+
+  const posts = useSelector(postsSelectors.getOwnPosts)
+    .slice()
+    .sort((a, b) => {
+      return b.createdAt - a.createdAt;
+    });
 
   return (
     <View
@@ -68,7 +74,7 @@ export default function ProfileScreen() {
                   <LogOutIcon />
                 </TouchableOpacity>
 
-                <Text style={[s.title]}>Natali Romanova</Text>
+                <Text style={[s.title]}>{user.nickName}</Text>
               </View>
             }
             ItemSeparatorComponent={() => <Empty height={32} />}
