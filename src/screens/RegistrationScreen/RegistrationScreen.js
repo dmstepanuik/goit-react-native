@@ -49,7 +49,7 @@ export default function RegistrationScreen() {
       });
       return;
     }
-    if (values.email === '' || values.password || values.nickname) {
+    if (values.email === '' || values.password === '' || values.nickname === '') {
       Toast.show({
         type: 'error',
         text1: 'Error:',
