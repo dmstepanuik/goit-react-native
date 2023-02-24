@@ -17,7 +17,9 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks'],
   rules: {
-    indent: ['error', 2, { SwitchCase: 1 }],
+    indent: ['error', 2,
+      // { SwitchCase: 1 }
+    ],
     // 'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single', { avoidEscape: true }],
     'react/react-in-jsx-scope': 'off',
