@@ -1,3 +1,7 @@
+import uploadPhotoToServer, {
+  firebaseStore,
+} from '../../api/uploadPhotoToServer';
+import uuid from 'react-native-uuid';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import * as Location from 'expo-location';
 import { style as s } from './CreatePostsScreen.style';
@@ -7,22 +11,47 @@ import TrashIcon from '../../components/svg/TrashIcon';
 import { useEffect, useState } from 'react';
 import { useKeyboardShow } from '../../hooks/useKeyboardShow';
 import CameraComponent from '../../components/CameraComponent/CameraComponent';
+import { useDispatch } from 'react-redux';
+import postOperation from '../../redux/posts/postsOperation';
 
 const initValues = { title: '', place: '' };
 
 export default function CreatePostsScreen({ imgUrl, navigation }) {
   const [photoUri, setPhotoUri] = useState('');
   const [values, setValues] = useState(initValues);
-  const [isShowKeyboard] = useKeyboardShow();
+  const { isShowKeyboard } = useKeyboardShow();
   const [placeLocation, setPlaceLocation] = useState(null);
+  const dispatch = useDispatch();
 
   const onChangeText = (value, name) => {
     setValues(v => ({ ...v, [name]: value }));
   };
 
-  const sendPost = () => {
-    const result = { ...values, photoUri, placeLocation };
-    navigation.navigate('posts', { newPost: result });
+  const sendPost = async () => {
+    const photoUrl = await uploadPhotoToServer(photoUri, firebaseStore.post);
+    const data = {
+      ...values,
+      photoUri: photoUrl,
+      placeLocation,
+      createdAt: Date.now(),
+    };
+
+    const newPost = {
+      id: uuid.v4(),
+      title: data.title,
+      messageCount: 0,
+      likeCount: 0,
+      imgUri: data.photoUri,
+      location: data.place,
+      locationData: {
+        latitude: data?.placeLocation?.latitude ?? 0,
+        longitude: data?.placeLocation?.longitude ?? 0,
+      },
+      comments: [],
+    };
+    dispatch(postOperation.uploadPostToServer(newPost));
+
+    navigation.navigate('posts');
   };
 
   const onPressReset = () => {
@@ -36,6 +65,7 @@ export default function CreatePostsScreen({ imgUrl, navigation }) {
       if (status !== 'granted') {
         console.log('Permission to access location was denied');
       }
+
       let location = await Location.getCurrentPositionAsync({});
       const coords = {
         latitude: location.coords.latitude,
