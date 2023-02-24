@@ -1,22 +1,36 @@
+import * as ImagePicker from 'expo-image-picker';
+import uploadPhotoToServer, {
+  firebaseStore,
+} from '../../api/uploadPhotoToServer';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import AddIcon from '../svg/AddIcon';
 import DeleteIcon from '../svg/DeleteIcon';
 
-export default function Avatar({ isEmpty, onClickBtn }) {
-  const onPressBtn = () => {
-    onClickBtn(!isEmpty);
+export default function Avatar({ avatarImg, setAvatarImg }) {
+  const onPressBtn = async () => {
+    if (avatarImg) return setAvatarImg('');
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const photoUrl = await uploadPhotoToServer(
+        result.assets[0].uri,
+        firebaseStore.avatar,
+      );
+      setAvatarImg(photoUrl);
+    }
   };
 
   return (
     <View style={st.container}>
-      {!isEmpty && (
-        <Image
-          style={st.img}
-          source={require('../../assets/images/avatar.png')}
-        />
-      )}
+      {avatarImg && <Image style={st.img} source={{ uri: avatarImg }} />}
       <TouchableOpacity style={st.btn} onPress={onPressBtn}>
-        {isEmpty ? <AddIcon /> : <DeleteIcon />}
+        {!avatarImg ? <AddIcon /> : <DeleteIcon />}
       </TouchableOpacity>
     </View>
   );
