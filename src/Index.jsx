@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import RegistrationScreen from './screens/RegistrationScreen/RegistrationScreen';
@@ -13,7 +12,6 @@ import KeyboardContainer from './components/KeyboardContainer/KeyboardContainer'
 import { useSelector } from 'react-redux';
 
 export default function App() {
-  const [isAuth, setIsAuth] = useState(false);
   const { currentUser } = useSelector(state => state.auth);
 
   const AuthStack = createStackNavigator();
@@ -25,14 +23,14 @@ export default function App() {
         <NavigationContainer>
           {!currentUser && (
             <AuthStack.Navigator>
+              <AuthStack.Screen options={{ headerShown: false }} name="signIn">
+                {() => <LoginScreen />}
+              </AuthStack.Screen>
               <AuthStack.Screen
                 options={{ headerShown: false }}
                 name="register"
               >
-                {() => <RegistrationScreen setIsAuth={setIsAuth} />}
-              </AuthStack.Screen>
-              <AuthStack.Screen options={{ headerShown: false }} name="signIn">
-                {() => <LoginScreen setIsAuth={setIsAuth} />}
+                {() => <RegistrationScreen />}
               </AuthStack.Screen>
             </AuthStack.Navigator>
           )}
@@ -40,7 +38,7 @@ export default function App() {
           {currentUser && (
             <OtherStack.Navigator screenOptions={mainOptions}>
               <OtherStack.Screen name="home" options={{ headerShown: false }}>
-                {props => <MainTabNav {...props} setIsAuth={setIsAuth} />}
+                {props => <MainTabNav {...props} />}
               </OtherStack.Screen>
               <OtherStack.Screen
                 name="map"

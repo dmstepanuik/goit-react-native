@@ -13,14 +13,17 @@ import LogOutIcon from '../../components/svg/LogOutIcon';
 // import { postList } from '../../data/postList';
 import PostCard from '../../components/PostCard/PostCard';
 import { postsCtx } from '../../context/PostsCtx';
+import { useDispatch } from 'react-redux';
+import authOperations from '../../redux/auth/authOperations';
 
 const Empty = ({ height, ...another }) => (
   <View style={{ backgroundColor: '#ffffff', height }} {...another} />
 );
 
-export default function ProfileScreen({ setIsAuth }) {
+export default function ProfileScreen() {
   const { posts } = useContext(postsCtx);
-  const [isEmptyAvatar, setIsEmptyAvatar] = useState(false);
+  const [avatarImg, setAvatarImg] = useState('');
+  const dispatch = useDispatch();
 
   return (
     <View
@@ -53,16 +56,13 @@ export default function ProfileScreen({ setIsAuth }) {
               <View style={s.inner}>
                 <View style={s.avatarWrapper}>
                   <View style={s.avatar}>
-                    <Avatar
-                      isEmpty={isEmptyAvatar}
-                      onClickBtn={setIsEmptyAvatar}
-                    />
+                    <Avatar avatarImg={avatarImg} setAvatarImg={setAvatarImg} />
                   </View>
                 </View>
 
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  onPress={() => setIsAuth(false)}
+                  onPress={() => dispatch(authOperations.authLogout())}
                   style={s.exitBtn}
                 >
                   <LogOutIcon />
