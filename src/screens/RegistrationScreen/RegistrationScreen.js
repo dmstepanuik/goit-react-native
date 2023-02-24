@@ -1,3 +1,4 @@
+import Toast from 'react-native-toast-message';
 import {
   ImageBackground,
   StyleSheet,
@@ -40,6 +41,22 @@ export default function RegistrationScreen() {
   };
 
   const onPressSubmitBtn = () => {
+    if (avatarImg === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Error:',
+        text2: 'User avatar must not be empty',
+      });
+      return;
+    }
+    if (values.email === '' || values.password || values.nickname) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error:',
+        text2: 'User email, password & nickname must not be empty',
+      });
+      return;
+    }
     // console.log('values', values);
     dispatch(authOperations.authRegister({ ...values, photoURL: avatarImg }));
     setValues(initValues);

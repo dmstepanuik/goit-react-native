@@ -1,3 +1,4 @@
+import Toast from 'react-native-toast-message';
 import {FlatList, Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {style as s} from './CommentsScreen.style';
 import RoundUpIcon from '../../components/svg/RoundUp';
@@ -7,7 +8,6 @@ import { useRoute } from '@react-navigation/native';
 import postsSelectors from '../../redux/posts/postsSelectors';
 import authSelectors from '../../redux/auth/authSelectors';
 import postOperation from '../../redux/posts/postsOperation';
-import Toast from 'react-native-toast-message';
 
 export default function CommentsScreen() {
   const [comment, setComment] = useState('');
